@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, Image,TouchableOpacity, Alert,Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { InicioScreen } from './InicioScreen';
 import { UbicacionScreen } from './UbicacionScreen';
@@ -13,9 +14,28 @@ import { ContactanosScreen } from './ContactanosScreen';
 import {ServiceDetailScreen} from './ServiceDetailScreen';
 import {DetallePlato} from './DetallePlato'
 
+
+
 const Drawer = createDrawerNavigator();
 
-const CustomDrawerContent = ({ navigation }) => {
+export const CustomDrawerContent = ({ navigation }) => {
+  //*********************************** */
+  const getLocalUser = async () => {
+    const data = await AsyncStorage.getItem("@user");
+    if (!data) return null;
+    return JSON.parse(data);
+  };
+  async function handleEffect() {
+    const user = await getLocalUser();        //Toda esta parte es para probar que se pasa el usuario
+    console.log("user", user);
+  }
+
+  const handleLogout=async()=>{
+    await AsyncStorage.removeItem("@user");
+    navigation.navigate("Pedido")
+  }
+//******************** */
+
   const renderDrawerItem = (label, iconName, screenName) => {
     return (
       <DrawerItem
@@ -30,12 +50,14 @@ const CustomDrawerContent = ({ navigation }) => {
       />
     );
   };
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
         <Icon name="user-circle" size={80} style={styles.profileIcon} />
-        <Text style={styles.profileName}>John Doe</Text>
+        <Text style={styles.profileName}>John Doe </Text>
+        <Button title="Datos de Usuario"onPress={handleEffect}/>  
+        {/*Este botón es para probrar que se pasan los datos*/}
       </View>
 
       <DrawerContentScrollView>
@@ -45,12 +67,22 @@ const CustomDrawerContent = ({ navigation }) => {
         {renderDrawerItem('Reservas', 'calendar-plus-o', 'Reservas')}
         {renderDrawerItem('Menú', 'star', 'Menú')}
         {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
+        <DrawerItem
+        label="Log Out"
+        icon={() => (
+          <Icon name="sign-out" size={20} color={"white"} />
+        )}
+        labelStyle={{ color: 'white' }}
+        onPress={handleLogout} 
+        />
       </DrawerContentScrollView>
     </View>
   );
 };
 
 export const MenuBurguerScreen = ({ navigation }) => {
+
+  
   return (
     <NavigationContainer independent={true}>
       <Drawer.Navigator
