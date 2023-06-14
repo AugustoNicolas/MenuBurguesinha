@@ -3,6 +3,7 @@
     "name": "uap02---2",
     "slug": "snack-9d660e14-a4c2-4dcf-a8dd-c08f99b1a6da",
     "version": "1.0.0",
+    "scheme":"com.harry182.snack-9d660e14-a4c2-4dcf-a8dd-c08f99b1a6da",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

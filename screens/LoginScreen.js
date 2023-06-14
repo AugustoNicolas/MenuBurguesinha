@@ -1,8 +1,63 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity,Button } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
+WebBrowser.maybeCompleteAuthSession();
+//web: 130862412940-fensis5t7bpu8mh577puuplpidd95cao.apps.googleusercontent.com
+
 export function LoginScreen({ navigation }) {
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: "130862412940-fensis5t7bpu8mh577puuplpidd95cao.apps.googleusercontent.com",
+  });
+
+  useEffect(() => {
+    handleEffect();
+  }, [response]);
+
+  async function handleEffect() {
+    const user = await getLocalUser();
+    console.log("user", user);
+    if (!user) {
+      if (response?.type === "success") {
+        getUserInfo(response.authentication.accessToken);
+      }
+    } else {
+
+      console.log("loaded locally");
+      navigation.navigate('menuHamburguesa');
+    }
+  }
+
+  const getLocalUser = async () => {
+    const data = await AsyncStorage.getItem("@user");
+    if (!data) return null;
+    return JSON.parse(data);
+  };
+
+  const getUserInfo = async (token) => {
+    if (!token) return;
+    try {
+      const response = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const user = await response.json();
+      await AsyncStorage.setItem("@user", JSON.stringify(user));
+
+      navigation.navigate('menuHamburguesa');
+    } catch (error) {
+      // Add your own error handler here
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    promptAsync();
+  };
 
  return (
   <View style={styles.view}>
@@ -11,18 +66,23 @@ export function LoginScreen({ navigation }) {
         <View style={styles.imageContainer}>
           <Image source={require("../assets/logoDossier.png")} style={styles.image} />
         </View>
+        {request ? (
           <TouchableOpacity
             style={styles.googleButton}
-            onPress={() => navigation.replace('menuHamburguesa')}
+            onPress={handleGoogleLogin}
           >
             <View style={styles.buttonContainer}>
               <Text style={styles.googleButtonText}>Ingresar con Google</Text>
               <Icon name="google" size={30} color="#FFFFFF" />
             </View>
           </TouchableOpacity>
-        
+        ) : (
+          <Text style={styles.text}>No se ha iniciado sesión</Text>
+        )}
       </View>
-
+        <Button title="Limpiar datos (debes recargar la app)" 
+        onPress={async () => await AsyncStorage.removeItem("@user")}/>
+     
     
   </View>
 );
@@ -56,7 +116,7 @@ const styles = {
   },
   image: {
     width: 370,
-    height: 200,
+    height: 160,
     resizeMode: "contain",
   },
   googleButton: {
