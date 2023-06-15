@@ -1,0 +1,13 @@
+
+1 --> menu (pantalla donde vemos los platos(no servicios) filtrados por fecha)   Misa 
+2 --> Ubicacion 
+3 ---> Hacer reserva (pantalla donde vemos servicios del mes) Naomy
+4 ---> Mis Reservas (pantalla para ver reservas ya hechas(no para hacer la reserva)) Augusto
+5 ---> formulario de reserva Misa
+6 ---> ver detalle servicio  Naomy
+7 ---> Notificaciones   Augusto
+
+****** administrativo 
+1 --> pantalla de crear plato (completado)
+2 --> pantalla de crear servicio  Mateo
+3 --> pantalla de reservas (todas las reservas) 
