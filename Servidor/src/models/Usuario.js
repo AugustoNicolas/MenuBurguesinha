@@ -8,7 +8,8 @@ const UsuarioSchema = mongoose.Schema({
     cell: String,
     is_Admin: Boolean,
     is_anfitrion: Boolean,
-    estado: Number
+    estado: Number,
+    picture: String
 })
 
 module.exports = mongoose.model("Usuario", UsuarioSchema, "Usuario")

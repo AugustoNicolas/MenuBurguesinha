@@ -9,27 +9,36 @@ exports.getAllUsuarios = async(req, res) =>{
     }
 }
 
-exports.get_and_create_Usuarios = async(req, res) =>{
+exports.get_and_create_Usuarios = async (req, res) => {
     try {
-        console.log(req.body)
-        let usuario = await Usuario.findOne({id_google: req.body.id}); 
-        if (!usuario) {
-            usr = {
-                id_google : req.body.id,
-                is_Admin : false,
-                is_anfitrion : false,
-                estado : 1,
-                email : req.body.email,
-                name : req.body.name,
-            }
-            usuario = new Usuario(usr);
-            await usuario.save();
-        } 
-        res.send(usuario);
-    } catch(e){
-        res.status(404).send({error: e})
+      let usuario = await Usuario.findOne({ id_google: req.body.id });
+      if (!usuario) {
+        usr = {
+          id_google: req.body.id,
+          is_Admin: false,
+          is_anfitrion: false,
+          estado: 1,
+          email: req.body.email,
+          name: req.body.name,
+          picture: req.body.picture,
+        };
+        usuario = new Usuario(usr);
+        console.log(usuario)
+      } else {
+        usuario.id_google = req.body.id;
+        usuario.email = req.body.email;
+        usuario.name = req.body.name;
+        usuario.picture = req.body.picture;
+      }
+      console.log(usuario.picture)
+      await usuario.save();
+      console.log(usuario)
+      res.send(usuario);
+    } catch (e) {
+      res.status(404).send({ error: e });
     }
-}
+  };
+  
 
 
 exports.createUsuario = async(req, res) =>{

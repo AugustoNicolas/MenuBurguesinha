@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import Constants from 'expo-constants';
+import { UsersProvider } from './context/userContext';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -20,6 +21,8 @@ import { ContactanosScreen } from './screens/ContactanosScreen';
 const Stack=createStackNavigator();
 export default function App() {
   return (
+    
+    <UsersProvider>
     <NavigationContainer style={styles.container}>
       <Stack.Navigator>
           <Stack.Screen name="Login" component={LoginScreen}
@@ -36,6 +39,7 @@ export default function App() {
 
     </Stack.Navigator>
     </NavigationContainer>
+    </UsersProvider>
   )}
 
 const styles = StyleSheet.create({

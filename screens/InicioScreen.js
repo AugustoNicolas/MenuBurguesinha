@@ -1,5 +1,6 @@
 import React,{useState}from "react";
 import { useCallback } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 import { StyleSheet, Text, View, Button, Image, Pressable, Linking, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';

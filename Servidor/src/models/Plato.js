@@ -4,7 +4,7 @@ const PlatoScheme = mongoose.Schema({
     nombre: String,
     detalle: String,
     estado: Number,
-    foto: Array
+    foto: String
 })
 
 module.exports = mongoose.model("Plato", PlatoScheme, "Plato")
