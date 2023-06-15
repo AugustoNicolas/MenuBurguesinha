@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image, Scr
 import DateTimePicker  from '@react-native-community/datetimepicker';
 
 export const DetallePlato = ({navigation}) => {
-    const loadFonts = async () => {
+  const loadFonts = async () => {
     await Font.loadAsync({
       Pavanam: require('../assets/Fonts/Pavanam-Regular.ttf'),
       Forum: require('../assets/Fonts/Forum-Regular.ttf'),

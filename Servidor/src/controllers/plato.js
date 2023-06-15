@@ -11,7 +11,6 @@ exports.getAllPlatos = async(req, res) => {
 
 exports.createPlato = async(req, res) => {
     try{
-        console.log(req.body)
         const plato = new Plato(req.body);
         plato.estado = 1
         await plato.save();
