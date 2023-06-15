@@ -2,23 +2,34 @@ import React, {useState} from "react";
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput } from "react-native";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { StyleSheet, Text, View, Button, Image, TextInput } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+
+import {postPlato} from '../helpers/Platos'
 
 export const AddPlato = ({navigation}) => {
 
+  const [imagenTarea, setImagenTarea] = useState(null);
+  const [nombre, setNombre] = useState("");
+  const [nombreError, setNombreError] = useState(false);
+  const [descripcion, setdescripcion] = useState("");
+  const [descripcionError, setdescripcionError] = useState(false);
+
+  const [detalle, setDetalle] = useState("")
+
+  const handlerNombre = (txt) => {
+    setNombre(txt);
+    setNombreError(txt.trim() === "" || txt === null);
+  };
+  const handlerDescripcion = (txt) => {
+    setdescripcion(txt);
+    setdescripcionError(txt.trim() === "" || txt === null);
+  };
+  
+
   const [fontsLoaded] = useFonts({
-    Forum: require('../assets/Fonts/Forum-Regular.ttf')
-})
-const [count, setCount] = useState(0);
-
-const increment = () => {
-    setCount(count + 1);
-};
-
-const decrement = () => {
-    setCount(count - 1);
-};
+      Forum: require('../assets/Fonts/Forum-Regular.ttf')
+  })
 
 const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -29,48 +40,52 @@ const onLayoutRootView = useCallback(async () => {
   if (!fontsLoaded) {
     return null;
   }
-  
+
+  const handleSeleccionarImagen = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (granted) {
+      const result = await ImagePicker.launchImageLibraryAsync();
+      if (!result.cancelled) {
+        setImagenTarea(result.uri);
+      }
+    } else {
+      alert('Se requiere permiso para acceder a la galería de fotos');
+    }
+  };
+
+  const handleUpData = async () => {
+    console.log(imagenTarea)
+    plato = {
+      nombre: nombre,
+      detalle: descripcion,
+      estado: 1,
+      foto: imagenTarea
+    }
+    response = await postPlato()
+    console.log(response)
+  }
+
 return(
  <View style={styles.view} onLayout={onLayoutRootView}>
     <View style={styles.infoTextContainer}>
         <Text style={[styles.infoText,{fontFamily: 'Forum'}]}>Nombre del plato: </Text>
-        <TextInput style={styles.textInput}/>
+        <TextInput style={nombreError ? styles.textIncorrecto : styles.textCorrecto} onChangeText={handlerNombre} />
     </View>
     <View style={styles.infoTextContainer}>
         <Text style={[styles.infoText,{fontFamily: 'Forum'}]}>Deatlles: </Text>
         <TextInput 
-        style={styles.textInputLarge}
-        multiline={true}/>
+        style={[descripcionError ? styles.textIncorrecto : styles.textCorrecto , styles.textInputLarge ]}
+        multiline={true}
+        onChangeText={handlerDescripcion}/>
     </View>
     <View style={styles.infoTextContainer}>
-        <Button 
-            title="Agregar foto"
-            onPress={() => {
-              const options = {
-                title: 'Titulo del picker',
-                cancelButtonTitle: 'Cancelar',
-                takePhotoButtonTitle: 'Tomar Foto',
-                chooseFromLibraryButtonTitle: 'Abrir Galeria',
-              };
-              launchImageLibrary(options, (res) => {
-                console.log({ res });
-              });
-            }}
-            
-            />
+        <Button title="Seleccionar imagen" onPress={handleSeleccionarImagen} />
+        {imagenTarea && <Image source={{ uri: imagenTarea }} style={{ width: 200, height: 200 }} />}
     </View>
-    {/* <View style={styles.infoTextContainer}>
-        <Text style={[styles.infoText,{fontFamily: 'Forum'}]}>Reserva de plato</Text>
-        <View style={styles.buttonContainer}> 
-            <Picker>
-                <Picker.Item label="Mes" />
-            </Picker>
-            <Picker>
-                <Picker.Item label="Dia" />
-            </Picker>
-        </View>
-        
-    </View> */}
+    <View style={styles.infoTextContainer}>
+        <Button title="Agregar Plato" onPress={() => handleUpData()} />
+    </View>
  </View>
 )
 };
@@ -96,14 +111,6 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
   },
-  
-  textInput: {
-      height: 30,
-      backgroundColor: '#C0BFB2',
-      borderRadius: 12,
-      borderWidth: 1,
-      paddingHorizontal: 10,
-    },
     container: {
   flex: 1,
   justifyContent: 'center',
@@ -175,4 +182,23 @@ buttonContainer: {
       height: 1,
       backgroundColor: "#FFFFFF",
   },
+  textCorrecto: {
+    height: 30,
+    backgroundColor: '#C0BFB2',
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderColor: '#C0BFB2'  , // Cambia el color del borde si hay un error
+  },
+  textIncorrecto: {
+    height: 30,
+    backgroundColor: '#C0BFB2',
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderColor: 'red' // Cambia el color del borde si hay un error
+  },
+  
+  
+  
 });

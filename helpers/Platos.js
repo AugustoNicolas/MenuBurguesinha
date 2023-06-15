@@ -3,9 +3,9 @@ import { API_URL } from "./config";
 
 
 //recibe un usuario y si no existe lo agrega a la DB... pero de igual manera lo recibe xd
-export const getUser = async (user) =>{
+export const postPlato = async (plato) =>{
     try{
-        const resp = await axios.post(`${API_URL}/usuario/getC`, user);
+        const resp = await axios.post(`${API_URL}/plato`, plato);
         return resp.data
     } catch(error){
         // Manejar el error aquí
