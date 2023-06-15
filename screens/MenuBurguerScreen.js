@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image,TouchableOpacity, Alert,Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
@@ -21,7 +21,21 @@ const Drawer = createDrawerNavigator();
 
 export const CustomDrawerContent = ({ navigation }) => {
   //*********************************** */
-  const getLocalUser = async () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {   //obteniendo datos del user para mostrarlos en el menu
+    const data = await AsyncStorage.getItem("@user");
+    if (data) {
+      const userData = JSON.parse(data);
+      setUser(userData);
+    }
+  };
+
+  const getLocalUser = async () => {  
     const data = await AsyncStorage.getItem("@user");
     if (!data) return null;
     return JSON.parse(data);
@@ -55,11 +69,21 @@ export const CustomDrawerContent = ({ navigation }) => {
   
   return (
     <View style={styles.container}>
+
+      {/* Codigo para mostrar datos del usuario -Naomy */}
+
       <View style={styles.profileContainer}>
-        <Icon name="user-circle" size={80} style={styles.profileIcon} />
-        <Text style={styles.profileName}>John Doe </Text>
-        <Button title="Datos de Usuario"onPress={handleEffect}/>  
-        {/*Este botón es para probrar que se pasan los datos*/}
+        {user && user.picture ? (
+          <Image source={{ uri: user.picture }} style={styles.profileIcon} />
+        ) : (
+          <Icon name="user-circle" size={80} style={styles.profileIcon} />
+        )}
+        {user && user.name ? (
+          <Text style={styles.profileName}>{user.name}</Text>
+        ) : (
+          <Text style={styles.profileName}>John Doe</Text>
+        )}
+        <Button title="Datos de Usuario" onPress={handleEffect} />
       </View>
 
       <DrawerContentScrollView>
@@ -169,19 +193,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   profileContainer: {
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderBottomColor: 'white',
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
     alignItems: 'center',
   },
   profileIcon: {
-    color: 'white',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'gray',
     marginBottom: 10,
   },
   profileName: {
+    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white',
   },
   drawerItem: {
     borderBottomWidth: 1,
