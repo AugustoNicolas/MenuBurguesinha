@@ -25,6 +25,7 @@ mongoose.connect('mongodb://localhost:27017/Dossier',
     app.post("/usuario/getC", usuarioController.get_and_create_Usuarios)
 
     app.get("/servicio", servicioController.getAllServicios)
+    app.get("/servicio/:fecha", servicioController.getServiciosPorFecha)
     app.post("/servicio", servicioController.createServicios)
     app.delete("/servicio/:id", servicioController.deleteServicios)
 

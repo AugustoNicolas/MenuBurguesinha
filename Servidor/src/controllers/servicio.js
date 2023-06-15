@@ -3,12 +3,35 @@ const Usuario = require('../models/Usuario')
 
 exports.getAllServicios = async(req, res) =>{
     try {
-        const servicio = await Servicio.find().populate('menu');
+        const servicio = await Servicio.find().populate('menu').exec();
+
         res.send(servicio);
     } catch{
         res.status(404).send({error: "Lista no encontrada"});
     }
 }
+
+exports.getServiciosPorFecha = async (req, res) => {
+    const fechaConsulta = req.url.split("/")[2]; // Extraer la fecha de la ruta
+    
+    try {
+      const servicios = await Servicio.aggregate([
+        // Agregar un campo fecha con solo el año, mes y día de la fecha_init
+        { $addFields: { fecha: { $dateToString: { format: "%Y-%m-%d", date: "$fecha_init" } } } },
+        // Filtrar los servicios que tengan la misma fecha que la ruta
+        { $match: { fecha: fechaConsulta } },
+        // Poblar el campo menu con los datos de los platos
+        { $lookup: { from: "Plato", localField: "menu", foreignField: "_id", as: "menu" } }
+      ]);
+      res.send(servicios);
+    } catch {
+      res.status(404).send({ error: "Servicios no encontrados" });
+    }
+  }
+
+
+  
+  
 
 exports.createServicios = async(req, res) =>{
     try{
