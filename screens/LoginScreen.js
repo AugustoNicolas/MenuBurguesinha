@@ -11,7 +11,8 @@ import { userContext } from '../context/userContext';
 WebBrowser.maybeCompleteAuthSession();
 //web: 130862412940-fensis5t7bpu8mh577puuplpidd95cao.apps.googleusercontent.com
 
-export function LoginScreen({ navigation }) {
+//aquí lo cambie de function a const  - Naomy
+export const LoginScreen=({ navigation }) => {
   const { addUser } = useContext(userContext);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -83,8 +84,11 @@ export function LoginScreen({ navigation }) {
           <Text style={styles.text}>No se ha iniciado sesión</Text>
         )}
       </View>
+        {/* 
+        Elimine este boton - Naomy
         <Button title="Limpiar datos (debes recargar la app)" 
         onPress={async () => await AsyncStorage.removeItem("@user")}/>
+        */}
      
     
   </View>

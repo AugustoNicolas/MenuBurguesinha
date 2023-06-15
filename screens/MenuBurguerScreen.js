@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image,TouchableOpacity, Alert,Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 import { InicioScreen } from './InicioScreen';
 import { UbicacionScreen } from './UbicacionScreen';
@@ -19,9 +20,24 @@ import {AddPlato} from './AddPlato'
 
 const Drawer = createDrawerNavigator();
 
-export const CustomDrawerContent = ({ navigation }) => {
+export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin nos permitira una navegación a nivel de stack.navigator
+  const navigation=useNavigation()   //navigation para navegar entre screens de cajon (drawer)
   //*********************************** */
-  const getLocalUser = async () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {   //obteniendo datos del user para mostrarlos en el menu
+    const data = await AsyncStorage.getItem("@user");
+    if (data) {
+      const userData = JSON.parse(data);
+      setUser(userData);
+    }
+  };
+
+  const getLocalUser = async () => {  
     const data = await AsyncStorage.getItem("@user");
     if (!data) return null;
     return JSON.parse(data);
@@ -31,10 +47,11 @@ export const CustomDrawerContent = ({ navigation }) => {
     console.log("user", user);
   }
 
-  const handleLogout=async()=>{
+  const handleLogout = async () => {
     await AsyncStorage.removeItem("@user");
-    navigation.navigate("Pedido")
-  }
+    navigateToLogin(); // Navegar a la pantalla de login después del logout
+  };
+  
 //******************** */
 
   const renderDrawerItem = (label, iconName, screenName) => {
@@ -54,11 +71,21 @@ export const CustomDrawerContent = ({ navigation }) => {
   
   return (
     <View style={styles.container}>
+
+      {/* Codigo para mostrar datos del usuario -Naomy */}
+
       <View style={styles.profileContainer}>
-        <Icon name="user-circle" size={80} style={styles.profileIcon} />
-        <Text style={styles.profileName}>John Doe </Text>
-        <Button title="Datos de Usuario"onPress={handleEffect}/>  
-        {/*Este botón es para probrar que se pasan los datos*/}
+        {user && user.picture ? (
+          <Image source={{ uri: user.picture }} style={styles.profileIcon} />
+        ) : (
+          <Icon name="user-circle" size={80} style={styles.profileIcon} />
+        )}
+        {user && user.name ? (
+          <Text style={styles.profileName}>{user.name}</Text>
+        ) : (
+          <Text style={styles.profileName}>John Doe</Text>
+        )}
+        <Button title="Datos de Usuario" onPress={handleEffect} />
       </View>
 
       <DrawerContentScrollView>
@@ -69,7 +96,7 @@ export const CustomDrawerContent = ({ navigation }) => {
         {renderDrawerItem('Menú', 'star', 'Menú')}
         {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
         {renderDrawerItem('Agregar plato', 'pencil', 'AddPlato')}
-        <DrawerItem
+        <DrawerItem      //este es el item del login
         label="Log Out"
         icon={() => (
           <Icon name="sign-out" size={20} color={"white"} />
@@ -82,14 +109,15 @@ export const CustomDrawerContent = ({ navigation }) => {
   );
 };
 
-export const MenuBurguerScreen = ({ navigation }) => {
-
-  
+export const MenuBurguerScreen = ({navigation}) => {
+  const navigateToLogin = () => {
+    navigation.navigate('Login')    //navegando al login
+  };
   return (
     <NavigationContainer independent={true}>
       <Drawer.Navigator
         initialRouteName="Inicio"
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        drawerContent={(props) => <CustomDrawerContent {...props} navigateToLogin={navigateToLogin} />} //aquí agregué el parámetro 'navigateToLogin' para que se pueda hacer navigate desde el CustomDrawer -Naomy
       >
         <Drawer.Screen name="Inicio" component={InicioScreen} options={{
           headerStyle:{
@@ -181,19 +209,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   profileContainer: {
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderBottomColor: 'white',
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
     alignItems: 'center',
   },
   profileIcon: {
-    color: 'white',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'gray',
     marginBottom: 10,
   },
   profileName: {
+    color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
-    color: 'white',
   },
   drawerItem: {
     borderBottomWidth: 1,
