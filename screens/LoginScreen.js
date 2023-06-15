@@ -5,11 +5,14 @@ import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { userContext } from '../context/userContext';
+
 
 WebBrowser.maybeCompleteAuthSession();
 //web: 130862412940-fensis5t7bpu8mh577puuplpidd95cao.apps.googleusercontent.com
 
 export function LoginScreen({ navigation }) {
+  const { addUser } = useContext(userContext);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "130862412940-fensis5t7bpu8mh577puuplpidd95cao.apps.googleusercontent.com",
@@ -21,14 +24,14 @@ export function LoginScreen({ navigation }) {
 
   async function handleEffect() {
     const user = await getLocalUser();
-    console.log("user", user);
+    //console.log("user", user);
     if (!user) {
       if (response?.type === "success") {
         getUserInfo(response.authentication.accessToken);
       }
     } else {
-
-      console.log("loaded locally");
+      addUser(user);
+      //console.log("loaded locally");
       navigation.navigate('menuHamburguesa');
     }
   }
@@ -48,7 +51,7 @@ export function LoginScreen({ navigation }) {
 
       const user = await response.json();
       await AsyncStorage.setItem("@user", JSON.stringify(user));
-
+      addUser(user);
       navigation.navigate('menuHamburguesa');
     } catch (error) {
       // Add your own error handler here

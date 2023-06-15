@@ -13,6 +13,7 @@ import { MenuScreen } from './MenuScreen'
 import { ContactanosScreen } from './ContactanosScreen';
 import {ServiceDetailScreen} from './ServiceDetailScreen';
 import {DetallePlato} from './DetallePlato'
+import {AddPlato} from './AddPlato'
 
 
 
@@ -63,10 +64,11 @@ export const CustomDrawerContent = ({ navigation }) => {
       <DrawerContentScrollView>
         {renderDrawerItem('Inicio', 'home', 'Inicio')}
         {renderDrawerItem('Ubicación', 'map-marker', 'Ubicación')}
-        {renderDrawerItem('Pedido', 'plus-circle', 'Pedido')}
+        {/* {renderDrawerItem('Pedido', 'plus-circle', 'Pedido')} */}
         {renderDrawerItem('Reservas', 'calendar-plus-o', 'Reservas')}
         {renderDrawerItem('Menú', 'star', 'Menú')}
         {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
+        {renderDrawerItem('Agregar plato', 'pencil', 'AddPlato')}
         <DrawerItem
         label="Log Out"
         icon={() => (
@@ -150,6 +152,16 @@ export const MenuBurguerScreen = ({ navigation }) => {
           }
           }}/>
           <Drawer.Screen name="ServiceDetail" component={ServiceDetailScreen} options={{
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTintColor:'white',
+          headerTitleAlign: 'center',
+          contentStyle:{
+            backgroundColor:'black'
+          }
+          }}/> 
+          <Drawer.Screen name="AddPlato" component={AddPlato} options={{
           headerStyle:{
             backgroundColor:'black',
           },
