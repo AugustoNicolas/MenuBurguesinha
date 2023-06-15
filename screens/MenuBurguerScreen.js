@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Image,TouchableOpacity, Alert,Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,7 +19,8 @@ import {DetallePlato} from './DetallePlato'
 
 const Drawer = createDrawerNavigator();
 
-export const CustomDrawerContent = ({ navigation }) => {
+export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin nos permitira una navegación a nivel de stack.navigator
+  const navigation=useNavigation()   //navigation para navegar entre screens de cajon (drawer)
   //*********************************** */
   const [user, setUser] = useState(null);
 
@@ -47,7 +48,7 @@ export const CustomDrawerContent = ({ navigation }) => {
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("@user");
-    navigation.navigate('Login');      //aquí puse que navegue a el Login -Naomy
+    navigateToLogin(); // Navegar a la pantalla de login después del logout
   };
   
 //******************** */
@@ -106,12 +107,15 @@ export const CustomDrawerContent = ({ navigation }) => {
   );
 };
 
-export const MenuBurguerScreen = ({ navigation }) => {
+export const MenuBurguerScreen = ({navigation}) => {
+  const navigateToLogin = () => {
+    navigation.navigate('Login')    //navegando al login
+  };
   return (
     <NavigationContainer independent={true}>
       <Drawer.Navigator
         initialRouteName="Inicio"
-        drawerContent={(props) => <CustomDrawerContent {...props} navigation={navigation} />} //aquí agregué el parámetro 'navigation' para que se pueda hacer navigate desde el CustomDrawer -Naomy
+        drawerContent={(props) => <CustomDrawerContent {...props} navigateToLogin={navigateToLogin} />} //aquí agregué el parámetro 'navigateToLogin' para que se pueda hacer navigate desde el CustomDrawer -Naomy
       >
         <Drawer.Screen name="Inicio" component={InicioScreen} options={{
           headerStyle:{
