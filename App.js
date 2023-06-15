@@ -17,7 +17,7 @@ import { ContactanosScreen } from './screens/ContactanosScreen';
  */}
 
 
-const Stack=createStackNavigator();
+const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer style={styles.container}>
@@ -32,8 +32,6 @@ export default function App() {
             headerShown: false
           }} 
         />
-
-
     </Stack.Navigator>
     </NavigationContainer>
   )}

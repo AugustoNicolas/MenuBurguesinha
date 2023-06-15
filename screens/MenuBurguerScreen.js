@@ -5,6 +5,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@rea
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 import { InicioScreen } from './InicioScreen';
 import { UbicacionScreen } from './UbicacionScreen';
 import { ReservasScreen } from './ReservasScreenMisa';
@@ -30,10 +31,11 @@ export const CustomDrawerContent = ({ navigation }) => {
     console.log("user", user);
   }
 
-  const handleLogout=async()=>{
+  const handleLogout = async () => {
     await AsyncStorage.removeItem("@user");
-    navigation.navigate("Pedido")
-  }
+    navigation.navigate('Login');      //aquí puse que navegue a el Login -Naomy
+  };
+  
 //******************** */
 
   const renderDrawerItem = (label, iconName, screenName) => {
@@ -67,7 +69,7 @@ export const CustomDrawerContent = ({ navigation }) => {
         {renderDrawerItem('Reservas', 'calendar-plus-o', 'Reservas')}
         {renderDrawerItem('Menú', 'star', 'Menú')}
         {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
-        <DrawerItem
+        <DrawerItem      //este es el item del login
         label="Log Out"
         icon={() => (
           <Icon name="sign-out" size={20} color={"white"} />
@@ -81,13 +83,11 @@ export const CustomDrawerContent = ({ navigation }) => {
 };
 
 export const MenuBurguerScreen = ({ navigation }) => {
-
-  
   return (
     <NavigationContainer independent={true}>
       <Drawer.Navigator
         initialRouteName="Inicio"
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
+        drawerContent={(props) => <CustomDrawerContent {...props} navigation={navigation} />} //aquí agregué el parámetro 'navigation' para que se pueda hacer navigate desde el CustomDrawer -Naomy
       >
         <Drawer.Screen name="Inicio" component={InicioScreen} options={{
           headerStyle:{
