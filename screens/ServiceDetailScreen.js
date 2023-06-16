@@ -13,7 +13,8 @@ export const ServiceDetailScreen = ({route, navigation}) => {
       <Swiper style={styles.slider} showsPagination={false}>
         {menu.map((plato, index) => (
           <View key={index} style={styles.slide}>
-            <Image source={plato.imagen} style={styles.slideImage} resizeMode="cover" />
+            
+            <Image source={{ uri: `data:image/jpeg;base64,${plato.foto}` }} style={styles.slideImage} resizeMode="cover" />
             <Text style={styles.slideTitle}>{plato.nombre}</Text>
             <Text style={styles.description}>Detalle: {plato.detalle}</Text>
           </View>

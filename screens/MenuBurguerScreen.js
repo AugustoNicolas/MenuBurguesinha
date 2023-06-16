@@ -92,15 +92,15 @@ export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin
 
       <DrawerContentScrollView>
         {renderDrawerItem('Inicio', 'home', 'Inicio')}
+        {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
         {renderDrawerItem('Ubicación', 'map-marker', 'Ubicación')}
         {/* {renderDrawerItem('Pedido', 'plus-circle', 'Pedido')} */}
-        {renderDrawerItem('Reservas', 'calendar-plus-o', 'Reservas')}
-        {renderDrawerItem('Menú', 'star', 'Menú')}
-        {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
-        {renderDrawerItem('Agregar plato', 'pencil', 'AddPlato')}
+        {renderDrawerItem('Hacer Reservas', 'calendar-plus-o', 'Reservas')}
+        {/* {renderDrawerItem('Menú de Platos', 'star', 'Menú')} */}
         {renderDrawerItem('Ver reservas', 'list', 'MisReservasScreen')}
         {renderDrawerItem('Agregar Servicio', 'plus-circle', 'addservicio')}
-        {renderDrawerItem('Agregar Reserva', 'pencil', 'ReservasScreen')}
+        {/* {renderDrawerItem('Agregar Reserva', 'pencil', 'ReservasScreen')} */}
+        {renderDrawerItem('Agregar plato', 'pencil', 'AddPlato')}
         <DrawerItem      //este es el item del login
         label="Log Out"
         icon={() => (
@@ -135,16 +135,6 @@ export const MenuBurguerScreen = ({navigation}) => {
           }
           }}/>
         <Drawer.Screen name="Ubicación" component={UbicacionScreen} options={{
-          headerStyle:{
-            backgroundColor:'black',
-          },
-          headerTintColor:'white',
-          headerTitleAlign: 'center',
-          contentStyle:{
-            backgroundColor:'black'
-          }
-          }}/>
-        <Drawer.Screen name="Pedido" component={ReservasScreen} options={{
           headerStyle:{
             backgroundColor:'black',
           },
@@ -226,7 +216,7 @@ export const MenuBurguerScreen = ({navigation}) => {
             backgroundColor:'black'
           } 
           }}/>
-          <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
+          {/* <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
           headerStyle:{
             backgroundColor:'black',
           },
@@ -235,17 +225,7 @@ export const MenuBurguerScreen = ({navigation}) => {
           contentStyle:{
             backgroundColor:'black'
           } 
-          }}/>
-          <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
-          headerStyle:{
-            backgroundColor:'black',
-          },
-          headerTintColor:'white',
-          headerTitleAlign: 'center',
-          contentStyle:{
-            backgroundColor:'black'
-          }
-          }}/>
+          }}/> */}
       </Drawer.Navigator>
     </NavigationContainer>
   );

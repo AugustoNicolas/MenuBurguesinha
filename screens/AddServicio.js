@@ -86,6 +86,7 @@ export const AddServicioScreen = ({navigation}) => {
       postServicios(servicioData)
         .then((responseData) => {
           console.log('Servicio guardado exitosamente:', responseData);
+          navigation.navigate('Inicio');
         })
         .catch((error) => {
           console.error('Error al guardar el servicio:', error);
@@ -146,7 +147,7 @@ export const AddServicioScreen = ({navigation}) => {
           <TouchableOpacity onPress={() => handlePlatoPress(item._id)} style={platoStyle(item._id)}>
             <View>
               <Text style={platoStyle(item._id)}>{item.nombre}</Text>
-              <Image style={{ width: 100, height: 100 }} source={{ uri: item.foto }} />
+              <Image style={{ width: 100, height: 100 }} source={{ uri: `data:image/jpeg;base64,${item.foto}` }} />
             </View>
           </TouchableOpacity>
         )}

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import * as Font from 'expo-font';
-import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image, ScrollView} from "react-native";
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput, Image, ScrollView} from "react-native";
 import DateTimePicker  from '@react-native-community/datetimepicker';
 
 import {getFechaServicio} from '../helpers/Servicio'
@@ -29,6 +29,7 @@ export const DetallePlato = ({navigation}) => {
       setShow(false);
       const selectedDateString = currentDate.toISOString().split('T')[0];
       const fechaServicio = await getFechaServicio(selectedDateString);
+      console.log(fechaServicio)
       setServicio(fechaServicio)
       }
 
@@ -65,19 +66,31 @@ export const DetallePlato = ({navigation}) => {
 
       {/* Mostrar resultados encontrados */}
       {servicios.length > 0 && (
-        servicios.map((servicio) => (
-          <View style={[styles.view, {paddingTop: 20}]} key={servicio._id}>
-            <TouchableOpacity onPress={() => navigation.navigate('ServiceDetail', {servicioId: servicio._id})}>
-              {/* <Image source={{ uri: servicio.foto }} style={styles.image} /> */}
+        <FlatList
+        data={servicios}
+        keyExtractor={(servicio) => servicio._id}
+        renderItem={({ item }) => (
+          <View style={[styles.view, { paddingTop: 20 }]} key={item._id}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('ServiceDetail', { servicioId: item._id })
+              }
+            >
+              <Image
+                source={{ uri: `data:image/jpeg;base64,${item.foto}` }}
+                style={styles.image}
+              />
             </TouchableOpacity>
             <View style={styles.overlayContainer}>
               <View style={styles.overlayTextContainer}>
-                <Text style={styles.overlayText}>{servicio.tematica}</Text>
+                <Text style={styles.overlayText}>{item.tematica}</Text>
               </View>
             </View>
-            <Text>{servicio._id}</Text>
+            <Text>{item._id}</Text>
           </View>
-        ))
+        )}
+      />
+      
       )}
       </View>
       </ScrollView>

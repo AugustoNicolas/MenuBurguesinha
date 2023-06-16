@@ -12,9 +12,13 @@ export const ItemServicios = ({fecha_init,foto,tematica,cupos_disponibles,onPres
         >
           <Text style={styles.serviceDate}>{fecha_init}</Text>
           <Image
-            source={foto}
+            source={{
+              uri:
+                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGgNzeapJM2jROvbFRZ4HCVeKQbN2czFMXdE_tP3hbc6ZTsAWSkyxDtYM7z2keLjK3Qvs'
+            }}
             style={styles.image}
           />
+
           <View style={styles.imageOverlay}>
             <Text style={styles.imageTitle}>{tematica}</Text>
             <Text style={styles.imagePrice}>{cupos_disponibles} cupos</Text>

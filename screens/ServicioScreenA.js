@@ -19,8 +19,6 @@ export const ServiciosScreen = ({ navigation }) => {
 
   const ItemListaServicios = (itemData) => {
     const PressHandler = () => {
-      console.log('Fecha: ',formattedDate)
-      console.log('Navegando al detalle del servicio: ',itemData.item.menu)
       navigation.navigate('ServiceDetail', {
         menu: itemData.item.menu,
         fecha_init: formattedDate
