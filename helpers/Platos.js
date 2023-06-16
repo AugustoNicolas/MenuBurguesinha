@@ -26,3 +26,13 @@ export const postPlato = async (plato) =>{
         return null
        
 }
+
+export const getPlatos=async()=>{
+    try{
+        const resp = await axios.get(`${API_URL}/plato`);
+        return resp.data;
+    }catch(error){
+        console.error('Error al obtener los usuarios:', error);
+        return null
+    }
+}

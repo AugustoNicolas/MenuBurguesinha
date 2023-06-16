@@ -1,0 +1,19 @@
+//son mis peticiones
+//como post man pero es una extencion de visual studio
+//se llama rest client 🥴
+
+GET http://192.168.0.9:8002/plato
+###
+
+GET  http://localhost:8002/usuario
+
+###
+POST http://localhost:8002/plato
+Content-Type: application/json
+
+{
+    "nombre":"pizza",
+    "detalle":"pizza y soda",
+    "estado":1,
+    "foto":"https://gastronomiabolivia.com/wp-content/uploads/saice-tarijeno-bolivia.jpg"
+}

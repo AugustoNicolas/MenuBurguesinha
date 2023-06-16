@@ -16,9 +16,7 @@ const ServicioSchema = mongoose.Schema({
     menu: [{
         type: Schema.Types.ObjectId,
         ref: 'Plato'
-      }]
-
-
+    }]
 })
 
 module.exports = mongoose.model("Servicio", ServicioSchema, "Servicio")
