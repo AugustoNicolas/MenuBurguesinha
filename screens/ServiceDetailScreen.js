@@ -37,7 +37,7 @@ export const ServiceDetailScreen = ({route, navigation}) => {
         <Text style={styles.date}>Fecha de Servicio: {fecha_init}</Text>
 
         {/* Botón de reserva */}
-        <TouchableOpacity style={styles.button} onPress={() =>navigation.navigate('ReservasScreen', {servicioId})}>
+        <TouchableOpacity style={styles.button} onPress={() =>navigation.navigate('ReservasScreen', {servicioId : servicioId})}>
           <Text style={styles.buttonText}>Reservar</Text>
         </TouchableOpacity>
       </View>

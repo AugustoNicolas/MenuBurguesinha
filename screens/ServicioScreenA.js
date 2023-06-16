@@ -20,6 +20,7 @@ export const ServiciosScreen = ({ navigation }) => {
   const ItemListaServicios = (itemData) => {
     const PressHandler = () => {
       navigation.navigate('ServiceDetail', {
+        servicioId: itemData.item._id,
         menu: itemData.item.menu,
         fecha_init: formattedDate
       });

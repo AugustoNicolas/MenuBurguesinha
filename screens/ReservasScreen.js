@@ -16,6 +16,7 @@ export const ReservasScreen = ({route,navigation}) => {
 const [errormsg, seterrormsg] = useState(false);
 
 //=====================Id del servicio==================\\
+console.log(route.params)
 const { servicioId } = route.params;
 //=====================Usuario Logeado==================\\
 

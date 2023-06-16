@@ -216,7 +216,7 @@ export const MenuBurguerScreen = ({navigation}) => {
             backgroundColor:'black'
           } 
           }}/>
-          {/* <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
+          <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
           headerStyle:{
             backgroundColor:'black',
           },
@@ -225,7 +225,7 @@ export const MenuBurguerScreen = ({navigation}) => {
           contentStyle:{
             backgroundColor:'black'
           } 
-          }}/> */}
+          }}/>
       </Drawer.Navigator>
     </NavigationContainer>
   );
