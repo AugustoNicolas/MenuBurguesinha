@@ -191,9 +191,10 @@ export const MenuBurguerScreen = ({navigation}) => {
           headerTitleAlign: 'center',
           contentStyle:{
             backgroundColor:'black'
-          }
-          }}/>  
-          <Drawer.Screen name="AddPlato" component={AddPlato} options={{
+          },
+          headerTitle: 'Detalle del Servicio',
+          }}/> 
+          <Drawer.Screen name="AddPlato" title="Agregar Plato" component={AddPlato} options={{
           headerStyle:{
             backgroundColor:'black',
           },
@@ -202,6 +203,27 @@ export const MenuBurguerScreen = ({navigation}) => {
           contentStyle:{
             backgroundColor:'black'
           } 
+          }}/>
+          <Drawer.Screen name="MisReservasScreen" component={MisReservasScreen} options={{
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTintColor:'white',
+          headerTitleAlign: 'center',
+          contentStyle:{
+            backgroundColor:'black'
+          }
+          }}/> 
+          <Drawer.Screen name="AddPlato" component={AddPlato} options={{
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTintColor:'white',
+          headerTitleAlign: 'center',
+          contentStyle:{
+            backgroundColor:'black'
+          },
+          headerTitle: 'Agregar Plato', 
           }}/>
           <Drawer.Screen name="MisReservasScreen" component={MisReservasScreen} options={{
           headerStyle:{

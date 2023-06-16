@@ -12,7 +12,7 @@ const ServicioSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    foto: String,
+    foto: Array,
     menu: [{
         type: Schema.Types.ObjectId,
         ref: 'Plato'

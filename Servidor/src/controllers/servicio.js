@@ -55,7 +55,22 @@ exports.createServicios = async(req, res) =>{
         res.status(404).send({error: "Error"})
     }
 }
-
+exports.getServiciosByMonth = async (req, res) => {
+    try {
+      const mes = parseInt(req.params.mes);
+      const servicios = await Servicio.find({
+        fecha_init: {
+          $gte: new Date(new Date().getFullYear(), mes - 1, 1),
+          $lt: new Date(new Date().getFullYear(), mes, 1)
+        }
+      }).populate('menu');
+  
+      res.send(servicios);
+    } catch (error) {
+      res.status(404).send({ error: "No se pudieron obtener los servicios filtrados por mes" });
+    }
+  };
+  
 exports.deleteServicios = async(req, res) => {
     try{
         const servicio = await Servicio.findById(req.params.id);
