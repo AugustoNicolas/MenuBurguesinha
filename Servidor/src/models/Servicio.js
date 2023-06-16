@@ -12,13 +12,11 @@ const ServicioSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    foto: Array,
+    foto: String,
     menu: [{
         type: Schema.Types.ObjectId,
         ref: 'Plato'
       }]
-
-
 })
 
 module.exports = mongoose.model("Servicio", ServicioSchema, "Servicio")

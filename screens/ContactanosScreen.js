@@ -1,11 +1,11 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, Linking } from "react-native";
+import { View, Text, Image, TouchableOpacity, Linking, ScrollView } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from '@react-navigation/native';
+//import AsyncStorage from "@react-native-async-storage/async-storage";
+//import { useNavigation } from '@react-navigation/native';
 
 export const ContactanosScreen = () => {
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
 
   const handleInstagramPress = () => {
     const url = "https://www.instagram.com/restaurante.escuela.udi/";
@@ -22,6 +22,8 @@ export const ContactanosScreen = () => {
     const url = "https://www.facebook.com/Restaurante.Escuela.UDI.by.Dossier";
     Linking.openURL(url);
   };
+{/*
+---- ya no se necesita esto
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("@user");
@@ -30,7 +32,7 @@ export const ContactanosScreen = () => {
       routes: [{ name: 'Login' }],
     });
   };
-
+*/}
   return (
     <View style={styles.view}>
       <View style={styles.iconContainer}>
@@ -68,9 +70,12 @@ export const ContactanosScreen = () => {
           Maria, Mater Dei, ora pro nobis peccatoribus, nunc, et in hora mortis nostrae.
         </Text>
       </View>
+      {/*
+      ---- ya no se necesita esto x2 xd
       <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
         <Text style={styles.logoutButtonText}>Desloguearse</Text>
       </TouchableOpacity>
+       */}
     </View>
   );
 };

@@ -1,54 +1,108 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { ItemServicios } from '../components/ItemServicios';
+import { getListaServicios } from '../helpers/Servicios';
 
-export const ServiciosScreen = ({navigation}) => {
+export const ServiciosScreen = ({ navigation }) => {
+  const [servicios, setServicios] = useState([]);
+
+  useEffect(() => {
+    fetchServicios();
+  }, []);
+
+  const fetchServicios = async () => {
+    const listaServicios = await getListaServicios();
+    if (listaServicios) {
+      setServicios(listaServicios);
+    }
+  };
+
+  const ItemListaServicios = (itemData) => {
+    const PressHandler = () => {
+      console.log('Fecha: ',formattedDate)
+      console.log('Navegando al detalle del servicio: ',itemData.item.menu)
+      navigation.navigate('ServiceDetail', {
+        menu: itemData.item.menu,
+        fecha_init: formattedDate
+      });
+    };
+
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.getMonth() + 1; // Los meses en JavaScript comienzan en 0
+      const year = date.getFullYear();
+      
+      // Asegúrate de agregar un 0 al día y al mes si tienen un solo dígito
+      const formattedDay = day < 10 ? `0${day}` : day;
+      const formattedMonth = month < 10 ? `0${month}` : month;
+    
+      // Retorna la fecha en el formato deseado
+      return `${formattedDay}/${formattedMonth}/${year}`;
+    };
+    
+    const originalDate = itemData.item.fecha_init;
+    const formattedDate = formatDate(originalDate);
+    console.log(formattedDate); // Resultado: "20/06/2023"
+    
+    return (
+      <ItemServicios
+        fecha_init={formattedDate}
+        foto={itemData.item.foto}
+        tematica={itemData.item.tematica}
+        cupos_disponibles={itemData.item.cupos_disponibles}
+        onPress={PressHandler}
+      />
+    );
+  };
+
+  const getCurrentMonth = () => {
+    const months = [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'
+    ];
+
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    return months[currentMonth];
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Servicios del mes</Text>
-        <Text style={styles.headerMonth}>Mayo</Text>
+        <Text style={styles.headerMonth}>{getCurrentMonth()}</Text>
       </View>
-
       {/* Body */}
-      <ScrollView contentContainerStyle={styles.body}>
-        <TouchableOpacity
-          style={styles.servicesContainer}
-          onPress={() => navigation.navigate('ServiceDetail')}
-        >
-          <Text style={styles.serviceDate}>Fecha del servicio: 12 de mayo</Text>
-          <Image
-            source={require('../assets/_B4A9508.jpg')}
-            style={styles.image}
-          />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.imageTitle}>Cocina Tecnoemocional</Text>
-            <Text style={styles.imagePrice}>60Bs</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.servicesContainer}
-          onPress={() => navigation.navigate('')}
-        >
-          <Text style={styles.serviceDate}>Fecha del servicio: 18 de mayo</Text>
-          <Image
-            source={require('../assets/_B4A9485.jpg')}
-            style={styles.image}
-          />
-          <View style={styles.imageOverlay}>
-            <Text style={styles.imageTitle}>Cocina Andina</Text>
-            <Text style={styles.imagePrice}>60Bs</Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
+      <View contentContainerStyle={styles.body}>
+        <FlatList
+          data={servicios}
+          keyExtractor={(item) => item._id}
+          renderItem={ItemListaServicios}
+          numColumns={1}
+        />
+      </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
+    paddingBottom:30,
   },
   header: {
     backgroundColor: 'black',
@@ -86,16 +140,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     marginBottom: 10,
-    backgroundColor:'red',
-    padding:10,
+    backgroundColor: 'red',
+    padding: 10,
     fontWeight: 'bold',
-    
   },
   image: {
     width: 350,
     height: 250,
     resizeMode: 'cover',
-    borderRadius:5,
+    borderRadius: 5,
   },
   imageOverlay: {
     position: 'absolute',

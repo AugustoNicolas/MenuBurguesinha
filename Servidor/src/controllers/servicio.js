@@ -15,24 +15,39 @@ exports.createServicios = async(req, res) =>{
         const servicio = new Servicio(req.body);
         servicio.cupos_disponibles = servicio.cupos
         servicio.estado = 1
-        const usr = await Usuario.findById(servicio.usuario_creador);
-        if (usr) {
-            if(servicio.menu.length > 0) {
+        //const usr = await Usuario.findById(servicio.usuario_creador);
+        //if (usr) {
+        //    if(servicio.menu.length > 0) {
                 await servicio.save();
                 res.send(servicio);
-            }  else {
-                res.status(404).send({error: "Debe agregar al menos un plato"})
-            }
-        } else{
-            res.status(404).send({error: "Usuario no encontrado"})
-        }
+        //    }  else {
+        //        res.status(404).send({error: "Debe agregar al menos un plato"})
+         //   }
+        //} else{
+        //    res.status(404).send({error: "Usuario no encontrado"})
+        //}
         
     } catch(e){
         console.log(e)
         res.status(404).send({error: "Error"})
     }
 }
-
+exports.getServiciosByMonth = async (req, res) => {
+    try {
+      const mes = parseInt(req.params.mes);
+      const servicios = await Servicio.find({
+        fecha_init: {
+          $gte: new Date(new Date().getFullYear(), mes - 1, 1),
+          $lt: new Date(new Date().getFullYear(), mes, 1)
+        }
+      }).populate('menu');
+  
+      res.send(servicios);
+    } catch (error) {
+      res.status(404).send({ error: "No se pudieron obtener los servicios filtrados por mes" });
+    }
+  };
+  
 exports.deleteServicios = async(req, res) => {
     try{
         const servicio = await Servicio.findById(req.params.id);

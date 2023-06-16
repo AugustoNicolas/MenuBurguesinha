@@ -1,7 +1,7 @@
 import React,{useState}from "react";
 import { useCallback } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
-import { StyleSheet, Text, View, Button, Image, Pressable, Linking, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Button, Image, Pressable, Linking, TouchableOpacity, ScrollView } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
 
@@ -21,30 +21,41 @@ export const InicioScreen = () => {
       }
   return (
     <View style={styles.view} onLayout={onLayoutRootView}>
-      <Image source={require("../assets/fuego.jpg")} style={styles.image} />
-      <View style={styles.textContainer}>
-        <Text style={[styles.title,{fontFamily: 'Forum'}]}>Caracteristicas</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={[styles.text,{fontFamily: 'Forum'}]}>Loremipsumdolorsitamet,consectetueradipiscingelit,mdolorsitamet,consectetueradipiscinge lit,m do l  orsitamet,consectetueradipiscinge onsectetueradonsectetuerad
-        </Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={[styles.title,{fontFamily: 'Forum'}]}>Horarios</Text>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={[styles.text,{fontFamily: 'Forum'}]}>Loremipsumdolorsitamet,consectetueradipiscingelit,mdolorsitamet,consectetueradipiscinge lit,m do l  orsitamet,consectetueradipiscinge onsectetueradonsectetuerad
-        </Text>
-      </View>
+      <ScrollView>
+        <View style={styles.containerImage}>
+          <Image source={require("../assets/fuego.jpg")} style={styles.image} />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.title,{fontFamily: 'Forum'}]}>Caracteristicas</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.text,{fontFamily: 'Forum'}]}>Loremipsumdolorsitamet,consectetueradipiscingelit,mdolorsitamet,consectetueradipiscinge lit,m do l  orsitamet,consectetueradipiscinge onsectetueradonsectetuerad
+          </Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.title,{fontFamily: 'Forum'}]}>Horarios</Text>
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={[styles.text,{fontFamily: 'Forum'}]}>Loremipsumdolorsitamet,consectetueradipiscingelit,mdolorsitamet,consectetueradipiscinge lit,m do l  orsitamet,consectetueradipiscinge onsectetueradonsectetuerad
+          </Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  containerImage:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center',
+    
+  },
   image: {
-    width: 326,
-    height: 326,
+    width: 370,
+    height: 300,
     borderRadius: 10,
+    resizeMode: "contain",
   },
   title: {
     fontSize: 35,

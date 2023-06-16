@@ -26,6 +26,7 @@ mongoose.connect('mongodb://localhost:27017/Dossier',
 
     app.get("/servicio", servicioController.getAllServicios)
     app.post("/servicio", servicioController.createServicios)
+    app.get('/servicio/mes/:mes', servicioController.getServiciosByMonth);
     app.delete("/servicio/:id", servicioController.deleteServicios)
 
     app.get("/reserva", reservaController.getAllReserva)
@@ -36,7 +37,7 @@ mongoose.connect('mongodb://localhost:27017/Dossier',
 
 
 
-    app.listen(8002, () => {
+    app.listen(8005, () => {
         console.log("Al aireeeeee");
     });
 })
