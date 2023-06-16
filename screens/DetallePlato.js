@@ -53,11 +53,11 @@ export const DetallePlato = ({navigation}) => {
             /> 
             )} 
         </View>
-        <View style={styles.infoTextContainer}>
+        { <View style={styles.infoTextContainer}> 
             <Text style={[styles.infoText,{fontFamily: 'Forum'}]}>{daten ? daten.toLocaleDateString('es-ES') : ''}</Text>
-            <Text style={[styles.infoText,{fontFamily: 'Pavanam'}]}>El dia {daten ? daten.toLocaleDateString('es-ES') : ''} te presentamos el menu</Text>
+            <Text style={[styles.infoText,{/*fontFamily: 'Pavanam'} */}]}>El dia {daten ? daten.toLocaleDateString('es-ES') : ''} te presentamos el menu</Text>
         </View>
-          
+        }
         {/* Mostrar texto cuando no hay resultados */}
       {servicios.length === 0 && (
         <Text style={[styles.infoText, {color:'red'}]} >No se encontraron resultados</Text>
@@ -68,7 +68,7 @@ export const DetallePlato = ({navigation}) => {
         servicios.map((servicio) => (
           <View style={[styles.view, {paddingTop: 20}]} key={servicio._id}>
             <TouchableOpacity onPress={() => navigation.navigate('ServiceDetail', {servicioId: servicio._id})}>
-              <Image source={{ uri: servicio.foto }} style={styles.image} />
+              {/* <Image source={{ uri: servicio.foto }} style={styles.image} /> */}
             </TouchableOpacity>
             <View style={styles.overlayContainer}>
               <View style={styles.overlayTextContainer}>
