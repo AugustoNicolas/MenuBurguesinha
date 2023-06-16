@@ -30,6 +30,7 @@ mongoose.connect('mongodb://localhost:27017/Dossier',
     app.delete("/servicio/:id", servicioController.deleteServicios)
 
     app.get("/reserva", reservaController.getAllReserva)
+    app.get("/reserva/:id", reservaController.getAllReservaByClient)
     app.post("/reserva", reservaController.createReserva)
     app.patch("/reserva/aceptar/:id", reservaController.aceptReserva)
     app.patch("/reserva/negar/:id", reservaController.DeniegReserva)

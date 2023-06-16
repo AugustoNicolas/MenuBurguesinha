@@ -10,6 +10,20 @@ exports.getAllReserva = async(req, res) =>{
         res.status(404).send({error: "Lista no encontrada"});
     }
 }
+exports.getAllReservaByClient = async (req, res) => {
+    try {
+        const usuarioId = req.params.id; // Obtener el ID del usuario de req.params
+
+        const reserva = await Reserva.find({ usuario: usuarioId })
+            .populate('usuario')
+            .populate('servicio');
+
+        res.send(reserva);
+    } catch (error) {
+        res.status(404).send({ error: "Lista no encontrada" });
+    }
+}
+
 
 exports.createReserva = async(req, res) =>{
     try{
