@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {LoginScreen} from './screens/LoginScreen'
 
 import { MenuBurguerScreen } from './screens/MenuBurguerScreen';
-import { AddServicioScreen } from './screens/AddServicio';
+
 {/*
 import { InicioScreen } from './screens/InicioScreen';
 import { PedidoScreen } from './screens/PedidoScreen'
@@ -26,7 +26,6 @@ export default function App() {
     <UsersProvider>
     <NavigationContainer style={styles.container}>
       <Stack.Navigator>
-          <Stack.Screen name="addservicio" component={AddServicioScreen}/>
           <Stack.Screen name="Login" component={LoginScreen}
           options={{
             headerShown: false
