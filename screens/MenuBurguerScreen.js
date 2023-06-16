@@ -8,7 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { InicioScreen } from './InicioScreen';
 import { UbicacionScreen } from './UbicacionScreen';
-import { ReservasScreen } from './ReservasScreenMisa';
+import { ReservasScreen } from './ReservasScreen';
 import { ServiciosScreen } from './ServicioScreenA';
 import { MenuScreen } from './MenuScreen'
 import { ContactanosScreen } from './ContactanosScreen';
@@ -100,6 +100,7 @@ export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin
         {renderDrawerItem('Agregar plato', 'pencil', 'AddPlato')}
         {renderDrawerItem('Ver reservas', 'list', 'MisReservasScreen')}
         {renderDrawerItem('Agregar Servicio', 'plus-circle', 'addservicio')}
+        {renderDrawerItem('Agregar Reserva', 'pencil', 'ReservasScreen')}
         <DrawerItem      //este es el item del login
         label="Log Out"
         icon={() => (
@@ -224,6 +225,26 @@ export const MenuBurguerScreen = ({navigation}) => {
           contentStyle:{
             backgroundColor:'black'
           } 
+          }}/>
+          <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTintColor:'white',
+          headerTitleAlign: 'center',
+          contentStyle:{
+            backgroundColor:'black'
+          } 
+          }}/>
+          <Drawer.Screen name="ReservasScreen" component={ReservasScreen} options={{
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTintColor:'white',
+          headerTitleAlign: 'center',
+          contentStyle:{
+            backgroundColor:'black'
+          }
           }}/>
       </Drawer.Navigator>
     </NavigationContainer>

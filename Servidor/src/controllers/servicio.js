@@ -24,7 +24,8 @@ exports.getServiciosPorFecha = async (req, res) => {
         { $lookup: { from: "Plato", localField: "menu", foreignField: "_id", as: "menu" } }
       ]);
       res.send(servicios);
-    } catch {
+    } catch(e) {
+        console.log(e)
       res.status(404).send({ error: "Servicios no encontrados" });
     }
   }

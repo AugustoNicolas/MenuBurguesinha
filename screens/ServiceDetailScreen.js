@@ -1,8 +1,10 @@
 import React from 'react';
+import { useRoute } from '@react-navigation/native';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-export const ServiceDetailScreen = ({ route }) => {
+export const ServiceDetailScreen = ({route, navigation}) => {
+  const { servicioId } = route.params;
   const { menu, fecha_init } = route.params;
 
   return (
@@ -20,12 +22,21 @@ export const ServiceDetailScreen = ({ route }) => {
 
       {/* Contenido */}
       <View style={styles.content}>
-        
+        <Text style={styles.title}>Nombre del Plato</Text>
+        <Text style={styles.description}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis lorem sed
+          maximus cursus. Etiam vehicula velit et leo maximus venenatis. Sed sed massa a
+          ipsum efficitur gravidaa.
+        </Text>
+
+        {/* Separador */}
+        <View style={styles.separator} />
+
         {/* Fecha del servicio */}
         <Text style={styles.date}>Fecha de Servicio: {fecha_init}</Text>
 
         {/* Botón de reserva */}
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <TouchableOpacity style={styles.button} onPress={() =>navigation.navigate('ReservasScreen', {servicioId})}>
           <Text style={styles.buttonText}>Reservar</Text>
         </TouchableOpacity>
       </View>
@@ -101,5 +112,5 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     fontWeight: 'bold',
-  },
+  }
 });
