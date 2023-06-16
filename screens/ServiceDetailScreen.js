@@ -1,7 +1,11 @@
 import React from 'react';
+import { useRoute } from '@react-navigation/native';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export const ServiceDetailScreen = () => {
+export const ServiceDetailScreen = ({route, navigation}) => {
+  const { servicioId } = route.params;
+
+
   return (
     <View style={styles.container}>
       {/* Imagen */}
@@ -17,7 +21,7 @@ export const ServiceDetailScreen = () => {
         <Text style={styles.description}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis lorem sed
           maximus cursus. Etiam vehicula velit et leo maximus venenatis. Sed sed massa a
-          ipsum efficitur gravida.
+          ipsum efficitur gravidaa.
         </Text>
 
         {/* Separador */}
@@ -27,7 +31,7 @@ export const ServiceDetailScreen = () => {
         <Text style={styles.date}>Fecha del servicio: 12 de Mayo, 2023</Text>
 
         {/* Botón de reserva */}
-        <TouchableOpacity style={styles.button} onPress={() => {}}>
+        <TouchableOpacity style={styles.button} onPress={() =>navigation.navigate('ReservasScreen', {servicioId})}>
           <Text style={styles.buttonText}>Reservar</Text>
         </TouchableOpacity>
       </View>

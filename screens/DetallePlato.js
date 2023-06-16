@@ -3,6 +3,8 @@ import * as Font from 'expo-font';
 import { StyleSheet, Text, View, Button, TouchableOpacity, TextInput, Image, ScrollView} from "react-native";
 import DateTimePicker  from '@react-native-community/datetimepicker';
 
+import {getFechaServicio} from '../helpers/Servicio'
+
 export const DetallePlato = ({navigation}) => {
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -13,21 +15,26 @@ export const DetallePlato = ({navigation}) => {
   useEffect(() => {
     loadFonts();
   }, []);
+
+
     const [show, setShow] = useState(false)
   const [daten, setdaten] = useState(new Date())
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || daten;
-        setdaten(currentDate);
-        setShow(false)
-        let temDate = new Date(currentDate)
-        let fDate = temDate.getDate() + '/'+(temDate.getMonth() + 1) + '/' + temDate.getFullYear();
-        setText(fDate)
+  const [servicios, setServicio] = useState([])
+
+    const onChange = async (event, selectedDate) => {
+      const currentDate = selectedDate || daten;
+      currentDate.setHours(0, 0, 0, 0);
+      setdaten(currentDate);
+      setShow(false);
+      const selectedDateString = currentDate.toISOString().split('T')[0];
+      const fechaServicio = await getFechaServicio(selectedDateString);
+      setServicio(fechaServicio)
       }
-      const handleImageSelection = () => {
-        navigation.navigate('ServiceDetail')};
+
+    
     return(
-      <ScrollView>
+      <ScrollView style={[{backgroundColor: "#000000"}]}>
      <View style={styles.view}>
         
         <View style={styles.infoTextContainer}>
@@ -35,14 +42,14 @@ export const DetallePlato = ({navigation}) => {
         </View>
         <View style={styles.infoTextContainer}>
             <TouchableOpacity style={styles.button} onPress={() => setShow(true)} title='Seleccionar Fecha'>
-                <Text style={styles.infoText}>FECHA</Text>   
+                <Text style={[styles.infoText]}>FECHA</Text>   
             </TouchableOpacity>
             {show && (
             <DateTimePicker 
             value={daten} 
             onChange={onChange}
-            display='spinner'
-            mode='date'
+            display='default'
+            style={{ backgroundColor: '#C0BFB2' }}
             /> 
             )} 
         </View>
@@ -51,40 +58,27 @@ export const DetallePlato = ({navigation}) => {
             <Text style={[styles.infoText,{fontFamily: 'Pavanam'}]}>El dia {daten ? daten.toLocaleDateString('es-ES') : ''} te presentamos el menu</Text>
         </View>
           
-        <View style={styles.infoTextContainer}>
-            <TouchableOpacity onPress={handleImageSelection}>
-            <Image source={require('../assets/IMG_0136.jpg')} style={styles.image}/>
+        {/* Mostrar texto cuando no hay resultados */}
+      {servicios.length === 0 && (
+        <Text style={[styles.infoText, {color:'red'}]} >No se encontraron resultados</Text>
+      )}
+
+      {/* Mostrar resultados encontrados */}
+      {servicios.length > 0 && (
+        servicios.map((servicio) => (
+          <View style={[styles.view, {paddingTop: 20}]} key={servicio._id}>
+            <TouchableOpacity onPress={() => navigation.navigate('ServiceDetail', {servicioId: servicio._id})}>
+              <Image source={{ uri: servicio.foto }} style={styles.image} />
             </TouchableOpacity>
-              <View style={styles.overlayContainer}>
-                <View style={styles.overlayTextContainer}>
-                    <Text style={styles.overlayText}>Nombre del plato</Text>
-                </View>
+            <View style={styles.overlayContainer}>
+              <View style={styles.overlayTextContainer}>
+                <Text style={styles.overlayText}>{servicio.tematica}</Text>
               </View>
-        </View>
-        <View style={styles.infoTextContainer}>
-          <Image source={require('../assets/IMG_0152.jpg')} style={styles.image}/>
-            <View style={styles.overlayContainer}>
-                <View style={styles.overlayTextContainer}>
-                  <Text style={styles.overlayText}>Nombre del plato</Text>
-                  </View>
-                </View>
-        </View>
-        <View style={styles.infoTextContainer}>
-          <Image source={require('../assets/IMG_0154.jpg')} style={styles.image}/>
-            <View style={styles.overlayContainer}>
-                <View style={styles.overlayTextContainer}>
-                  <Text style={styles.overlayText}>Nombre del plato</Text>
-                  </View>
-                </View>
-        </View>
-        <View style={styles.infoTextContainer}>
-          <Image source={require('../assets/IMG_0160.jpg')} style={styles.image}/>
-            <View style={styles.overlayContainer}>
-                <View style={styles.overlayTextContainer}>
-                  <Text style={styles.overlayText}>Nombre del plato</Text>
-                  </View>
-                </View>
-        </View>
+            </View>
+            <Text>{servicio._id}</Text>
+          </View>
+        ))
+      )}
       </View>
       </ScrollView>
     )
@@ -173,7 +167,7 @@ const styles = StyleSheet.create({
       overlayTextContainer: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         paddingVertical: '3%',
-        paddingHorizontal: '34%',
+        paddingHorizontal: '38%',
       },
       overlayText: {
         color: '#FFFFFF',

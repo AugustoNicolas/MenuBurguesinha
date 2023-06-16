@@ -8,7 +8,7 @@ export const UsersProvider = ({ children }) => {
 
   const addUser = async (user) => {
     const ur = await getUser(user)
-    console.log(ur)
+    //console.log(ur)
     if (ur){
       await setUserInfo(ur)
     }    

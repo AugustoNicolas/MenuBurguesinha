@@ -18,8 +18,9 @@ exports.createReserva = async(req, res) =>{
         reserva.estado = 1
         const usr = await Usuario.findById(reserva.usuario);
         const ser = await Servicio.findById(reserva.servicio).populate('menu');
+        console.log(usr)
+        console.log(ser)
         if (usr && ser) {
-
             ser.cupos_disponibles = ser.cupos_disponibles - reserva.cupos
             ser.save();
             if(ser.menu.length > 0) {
