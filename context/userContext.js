@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import {getUser} from '../helpers/Users'
+import {getReservaById} from '../helpers/Reservas'
 
 export const userContext = createContext();
 
@@ -14,7 +15,19 @@ export const UsersProvider = ({ children }) => {
     }    
   }
 
-  const value = { userInfo, addUser };
+  //  apartado para reservas 
+  const [reservas, setReservas] = useState([]);
+
+  const searchReservas = async () => {
+    const resp = await getReservaById()
+    if (resp){
+      console.log(resp)
+      await setReservas(resp)
+    }    
+  }
+
+
+  const value = { userInfo, addUser, reservas, searchReservas};
 
   return (
     <userContext.Provider value={value}>

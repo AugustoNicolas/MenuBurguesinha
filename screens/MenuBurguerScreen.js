@@ -15,6 +15,7 @@ import { ContactanosScreen } from './ContactanosScreen';
 import {ServiceDetailScreen} from './ServiceDetailScreen';
 import {DetallePlato} from './DetallePlato'
 import {AddPlato} from './AddPlato'
+import {MisReservasScreen} from './MisReservas'
 
 
 
@@ -96,6 +97,7 @@ export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin
         {renderDrawerItem('Menú', 'star', 'Menú')}
         {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
         {renderDrawerItem('Agregar plato', 'pencil', 'AddPlato')}
+        {renderDrawerItem('Ver reservas', 'list', 'MisReservasScreen')}
         <DrawerItem      //este es el item del login
         label="Log Out"
         icon={() => (
@@ -188,7 +190,7 @@ export const MenuBurguerScreen = ({navigation}) => {
           contentStyle:{
             backgroundColor:'black'
           }
-          }}/> 
+          }}/>  
           <Drawer.Screen name="AddPlato" component={AddPlato} options={{
           headerStyle:{
             backgroundColor:'black',
@@ -197,7 +199,17 @@ export const MenuBurguerScreen = ({navigation}) => {
           headerTitleAlign: 'center',
           contentStyle:{
             backgroundColor:'black'
-          }
+          } 
+          }}/>
+          <Drawer.Screen name="MisReservasScreen" component={MisReservasScreen} options={{
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTintColor:'white',
+          headerTitleAlign: 'center',
+          contentStyle:{
+            backgroundColor:'black'
+          } 
           }}/>
       </Drawer.Navigator>
     </NavigationContainer>

@@ -38,17 +38,17 @@ exports.createServicios = async(req, res) =>{
         const servicio = new Servicio(req.body);
         servicio.cupos_disponibles = servicio.cupos
         servicio.estado = 1
-        const usr = await Usuario.findById(servicio.usuario_creador);
-        if (usr) {
-            if(servicio.menu.length > 0) {
+        //const usr = await Usuario.findById(servicio.usuario_creador);
+        //if (usr) {
+        //    if(servicio.menu.length > 0) {
                 await servicio.save();
                 res.send(servicio);
-            }  else {
-                res.status(404).send({error: "Debe agregar al menos un plato"})
-            }
-        } else{
-            res.status(404).send({error: "Usuario no encontrado"})
-        }
+        //    }  else {
+        //        res.status(404).send({error: "Debe agregar al menos un plato"})
+         //   }
+        //} else{
+        //    res.status(404).send({error: "Usuario no encontrado"})
+        //}
         
     } catch(e){
         console.log(e)
