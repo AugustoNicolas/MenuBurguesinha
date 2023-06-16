@@ -31,12 +31,13 @@ mongoose.connect('mongodb://localhost:27017/Dossier',
 
     app.get("/reserva", reservaController.getAllReserva)
     app.get("/reserva/:id", reservaController.getAllReservaByClient)
+    app.get("/reservaDate/:id", reservaController.getReservasForClientAndDateToday)
     app.post("/reserva", reservaController.createReserva)
     app.patch("/reserva/aceptar/:id", reservaController.aceptReserva)
     app.patch("/reserva/negar/:id", reservaController.DeniegReserva)
     app.delete("/reserva/:id", reservaController.cancelReserva)
 
-
+    
 
     app.listen(8002, () => {
         console.log("Al aireeeeee");

@@ -23,10 +23,35 @@ exports.getAllReservaByClient = async (req, res) => {
         res.status(404).send({ error: "Lista no encontrada" });
     }
 }
+exports.getReservasForClientAndDateToday = async (req, res) => {
+    try {
+      const usuarioId = req.params.id;
+  
+      // Obtener la fecha actual sin la hora
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+  
+      const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+  
+      const reserva = await Reserva.find({
+        usuario: usuarioId,
+        'servicio.fecha_init': { $gte: today, $lt: tomorrow }
+      })
+        .populate('usuario')
+        .populate('servicio');
+  
+      res.send(reserva);
+    } catch (error) {
+      res.status(404).send({ error: "Lista no encontrada" });
+    }
+  };
+  
+  
 
 
 exports.createReserva = async(req, res) =>{
     try{
+        console.log(req.body)
         const reserva = new Reserva(req.body);
         reserva.cupos_disponibles = reserva.cupos
         reserva.estado = 1
