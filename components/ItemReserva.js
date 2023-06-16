@@ -3,14 +3,14 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import moment from 'moment';
 
 export const ItemReserva = ({ item }) => {
-  const formattedDate = moment(item.servicio.fecha_init).format('DD/MM/YYYY HH:mm:ss');
+  const formattedDate = moment(item.fecha_init).format('DD/MM/YYYY HH:mm:ss');
 
   return (
     <View style={styles.container}>
       <Pressable style={styles.button}>
         <View style={styles.innerContainer}>
           <Text style={styles.label}>Servicio:</Text>
-          <Text style={styles.text}>{item.servicio.tematica}</Text>
+          <Text style={styles.text}>{item.tematica}</Text>
           <Text style={styles.label}>Fecha:</Text>
           <Text style={styles.text}>{formattedDate}</Text>
           <Text style={styles.label}>Cantidad de personas reservadas:</Text>
