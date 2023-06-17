@@ -4,7 +4,6 @@ import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'rea
 export const ItemServicios = ({fecha_init,foto,tematica,cupos_disponibles,onPress}) => {
   return (
     <View style={styles.container}>
-
       {/* Body */}
         <TouchableOpacity
           style={styles.servicesContainer}
@@ -12,10 +11,7 @@ export const ItemServicios = ({fecha_init,foto,tematica,cupos_disponibles,onPres
         >
           <Text style={styles.serviceDate}>{fecha_init}</Text>
           <Image
-            source={{
-              uri:
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGgNzeapJM2jROvbFRZ4HCVeKQbN2czFMXdE_tP3hbc6ZTsAWSkyxDtYM7z2keLjK3Qvs'
-            }}
+          source={{ uri: `data:image/jpeg;base64,${foto}` }}
             style={styles.image}
           />
 

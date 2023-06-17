@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TextInput, Button, Text, FlatList, Image, ScrollView, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Text, FlatList, Image, Pressable, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { getPlatos } from '../helpers/Platos';
 import {  postServicios } from '../helpers/Servicio';
 import { userContext } from '../context/userContext';
+import { async } from 'q';
 
 
 
@@ -29,6 +31,7 @@ export const AddServicioScreen = ({navigation}) => {
   const [platosVisible, setPlatosVisible] = useState(false);
   const [selectedPlatoId, setSelectedPlatoId] = useState(null);
   const [platosSeleccionados, setPlatosSeleccionados] = useState([]);
+  const [imagenTarea, setImagenTarea] = useState(null);
   
 
   const loadPlatos = async () => {
@@ -70,7 +73,14 @@ export const AddServicioScreen = ({navigation}) => {
     }
   };
 
-  const handleGuardar = () => {
+  const handleGuardar = async () => {
+    const imageToBase64 = async (uri) => {
+      const base64 = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      return base64;
+    };
+    const base64Image = await imageToBase64(imagenTarea);
     if (platosSeleccionados.length > 0) {
       const servicioData = {
         tematica: tematica,
@@ -79,10 +89,9 @@ export const AddServicioScreen = ({navigation}) => {
         cupos: parseInt(cupos),
         cupos_disponibles: parseInt(cupos),
         usuario_creador: userInfo._id, // Reemplaza con el ID del usuario creador
-        foto: platosSeleccionados[0].foto, // Puedes utilizar la foto del primer plato seleccionado
+        foto: base64Image, // Puedes utilizar la foto del primer plato seleccionado
         menu: platosSeleccionados,
       };
-
       postServicios(servicioData)
         .then((responseData) => {
           console.log('Servicio guardado exitosamente:', responseData);
@@ -100,6 +109,19 @@ export const AddServicioScreen = ({navigation}) => {
   const platoStyle = (platoId) => {
     const isSelected = platosSeleccionados.includes(platoId);
     return isSelected ? styles.platoSelected : styles.platoNormal;
+  };
+
+  const handleSeleccionarImagen = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (granted) {
+      const result = await ImagePicker.launchImageLibraryAsync();
+      if (!result.canceled) {
+        setImagenTarea(result.uri);
+      }
+    } else {
+      alert('Se requiere permiso para acceder a la galería de fotos');
+    }
   };
   
 
@@ -167,6 +189,13 @@ export const AddServicioScreen = ({navigation}) => {
       {selectedPlatoId && (
         <Text>Plato seleccionado: {selectedPlatoId}</Text>
       )}
+
+      <View style={styles.infoTextContainerBtn}>
+          <Pressable style={styles.contentBtn} onPress={handleSeleccionarImagen}>
+            <Text style={styles.buttonText}>Seleccionar imagen</Text>
+          </Pressable>
+          {imagenTarea && <Image source={{ uri: imagenTarea }} style={styles.image} />}
+      </View>
       <Button title="Guardar" onPress={handleGuardar} />
     </SafeAreaView>
   );
@@ -179,5 +208,29 @@ const styles = StyleSheet.create({
   platoSelected: {
     marginRight: 10,
     color: 'green',
+  },
+  infoTextContainerBtn : {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  contentBtn: {
+    backgroundColor: '#771011',
+    borderRadius: 20,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+    fontFamily: 'Forum',
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 18,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    marginTop: 10,
+    margin: 20
   },
 });
