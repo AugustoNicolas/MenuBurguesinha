@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { userContext } from '../context/userContext';
 
 import { postPlato } from '../helpers/Platos';
 
 export const AddPlato = ({ navigation }) => {
+
+  
+  const {loadPlatos}=useContext(userContext)
 
   const [imagenTarea, setImagenTarea] = useState(null);
   const [nombre, setNombre] = useState("");
@@ -86,6 +90,7 @@ export const AddPlato = ({ navigation }) => {
     const response = await postPlato(plato);
 
     if (response !== null) {
+      loadPlatos()
       navigation.navigate('Inicio');
     } else {
       seterrormsg(true);

@@ -4,10 +4,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 
-import { getPlatos } from '../helpers/Platos';
 import {  postServicios } from '../helpers/Servicio';
 import { userContext } from '../context/userContext';
-import { async } from 'q';
 
 
 
@@ -19,7 +17,7 @@ export const AddServicioScreen = ({navigation}) => {
   }, []);
 
 
-  const {userInfo , fetchServicios}=useContext(userContext)
+  const {userInfo , fetchServicios, platos, loadPlatos}=useContext(userContext)
 
   const [tematica, setTematica] = useState('');
   const [fechaInit, setFechaInit] = useState(new Date().toISOString().split('T')[0]);
@@ -27,21 +25,13 @@ export const AddServicioScreen = ({navigation}) => {
   const [cupos, setCupos] = useState('');
   const [showDatePickerInit, setShowDatePickerInit] = useState(false);
   const [showDatePickerFin, setShowDatePickerFin] = useState(false);
-  const [platos, setPlatos] = useState([]);
   const [platosVisible, setPlatosVisible] = useState(false);
   const [selectedPlatoId, setSelectedPlatoId] = useState(null);
   const [platosSeleccionados, setPlatosSeleccionados] = useState([]);
   const [imagenTarea, setImagenTarea] = useState(null);
   
 
-  const loadPlatos = async () => {
-    try {
-      const platosData = await getPlatos();
-      setPlatos(platosData);
-    } catch (error) {
-      console.error('Error al obtener la información de los platos:', error);
-    }
-  };
+  
 
   const handleFechaInitChange = (event, selectedDate) => {
     setShowDatePickerInit(false);
