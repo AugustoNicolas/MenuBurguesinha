@@ -3,6 +3,7 @@ import {getUser} from '../helpers/Users'
 import {getReservaById} from '../helpers/Reservas'
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import {getListaServicios} from '../helpers/Servicios'
+import {getPlatos} from '../helpers/Platos'
 
 export const userContext = createContext();
 
@@ -37,7 +38,20 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
-  const value = { userInfo, addUser, reservas, searchReservas, servicios, fetchServicios};
+  // apartado para platos 
+  const [platos, setPlatos] = useState([]);
+
+
+  const loadPlatos = async () => {
+    try {
+      const platosData = await getPlatos();
+      setPlatos(platosData);
+    } catch (error) {
+      console.error('Error al obtener la información de los platos:', error);
+    }
+  };
+
+  const value = { userInfo, addUser, reservas, searchReservas, servicios, fetchServicios, platos, loadPlatos};
 
   return (
     <userContext.Provider value={value}>
