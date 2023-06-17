@@ -22,6 +22,7 @@ export const ServiciosScreen = ({ navigation }) => {
       });
     };
 
+
     const formatDate = (dateString) => {
       const date = new Date(dateString);
       const day = date.getDate();
@@ -41,6 +42,7 @@ export const ServiciosScreen = ({ navigation }) => {
     //console.log(formattedDate); // Resultado: "20/06/2023"
     
     return (
+      
       <ItemServicios
         fecha_init={formattedDate}
         foto={itemData.item.foto}
@@ -72,6 +74,8 @@ export const ServiciosScreen = ({ navigation }) => {
     return months[currentMonth];
   };
 
+  const filteredServicios = servicios.filter((servicio) => servicio.cupos_disponibles > 0);
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -80,9 +84,10 @@ export const ServiciosScreen = ({ navigation }) => {
         <Text style={styles.headerMonth}>{getCurrentMonth()}</Text>
       </View>
       {/* Body */}
+
       <View contentContainerStyle={styles.body}>
         <FlatList
-          data={servicios}
+          data={filteredServicios}
           keyExtractor={(item) => item._id}
           renderItem={ItemListaServicios}
           numColumns={1}

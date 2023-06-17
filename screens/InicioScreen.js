@@ -95,7 +95,12 @@ export const InicioScreen = () => {
     <View style={styles.view} onLayout={onLayoutRootView}>
       <ScrollView>
         <View style={styles.containerImage}>
-          <Image source={require("../assets/fuego.jpg")} style={styles.image} />
+        <Image
+  source={require("../assets/fuego.jpg")}
+  style={styles.image}
+  resizeMode="contain"
+  fadeDuration={0} // Opcional: Desactiva el fundido de la imagen
+/>
         </View>
         <View style={styles.textContainer}>
           <Text style={[styles.title,{fontFamily: 'Forum'}]}>Caracteristicas</Text>

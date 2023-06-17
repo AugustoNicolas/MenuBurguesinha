@@ -62,7 +62,8 @@ export const ContactanosScreen = () => {
         <Text style={styles.infoText}>Vive la experiencia Dossier</Text>
       </View>
       <View style={styles.imageContainer}>
-        <Image source={require("../assets/IMG_5843.jpg")} style={styles.image} />
+        <Image source={require("../assets/IMG_5843.jpg")} style={styles.image}
+    fadeDuration={0} />
       </View>
       <View style={styles.infoTextContainer}>
         <Text style={styles.paragraph}>
@@ -124,7 +125,9 @@ const styles = {
   },
   image: {
     width: 326,
-    height: 326,
+    height: 270,
+    borderRadius: 33,
+    resizeMode:'contain'
   },
   paragraph: {
     fontSize: 18,

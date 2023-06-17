@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
+import { View, Text, StyleSheet, PermissionsAndroid, Platform,Linking, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
 import * as Location from 'expo-location';
@@ -91,6 +91,19 @@ const getUserLocation = async () => {
   const toRadians = angle => {
     return angle * (Math.PI / 180);
   };
+
+  const openGoogleMaps = () => {
+    const restaurantLocation = {
+      latitude: -17.733987719878737,
+      longitude: -63.16939445991823,
+    };
+  
+    const url = `https://www.google.com/maps/search/?api=1&query=${restaurantLocation.latitude},${restaurantLocation.longitude}`;
+  
+    Linking.openURL(url);
+  };
+  
+
   return (
     <View style={styles.container}>
       <MapView
@@ -111,12 +124,15 @@ const getUserLocation = async () => {
           description="6to anillo banzer, RN 4, Santa Cruz de la Sierra"
         />
       </MapView>
+      <TouchableOpacity onPress={openGoogleMaps}>
+        <View style={styles.infoContainer}>
+          
+            <Text style={styles.distanceText}>
+              {userLocation ? `Distancia: ${calculateDistance()} km` : 'Obteniendo ubicación...'}
+            </Text>
+        </View>
+      </TouchableOpacity>
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.distanceText}>
-          {userLocation ? `Distancia: ${calculateDistance()} km` : 'Obteniendo ubicación...'}
-        </Text>
-      </View>
     </View>
   );
 }
