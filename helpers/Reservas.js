@@ -15,9 +15,9 @@ export const getReservaById = async (id_user) =>{
        
 }
 
-export const getReservaByIdAndDate = async () =>{
+export const getReservaByIdAndDate = async (id_user) =>{
     try{ 
-        const resp = await axios.get(`${API_URL}/reservaDate/648a85b1cb416ea61f2817a0`);
+        const resp = await axios.get(`${API_URL}/reservaDate/${id_user}`);
         return resp.data
     } catch(error){
         console.log(error)

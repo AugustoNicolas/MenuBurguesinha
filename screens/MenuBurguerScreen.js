@@ -39,15 +39,6 @@ export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin
     }
   };
 
-  const getLocalUser = async () => {  
-    const data = await AsyncStorage.getItem("@user");
-    if (!data) return null;
-    return JSON.parse(data);
-  };
-  async function handleEffect() {
-    const user = await getLocalUser();        //Toda esta parte es para probar que se pasa el usuario
-    console.log("user", user);
-  }
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem("@user");
@@ -87,10 +78,9 @@ export const CustomDrawerContent = ( { navigateToLogin } ) => {//navigateToLogin
         ) : (
           <Text style={styles.profileName}>John Doe</Text>
         )}
-        <Button title="Datos de Usuario" onPress={handleEffect} />
       </View>
 
-      <DrawerContentScrollView>
+      <DrawerContentScrollView style={{marginTop: -50}}>
         {renderDrawerItem('Inicio', 'home', 'Inicio')}
         {renderDrawerItem('Contáctanos', 'phone', 'Contáctanos')}
         {renderDrawerItem('Ubicación', 'map-marker', 'Ubicación')}
@@ -127,6 +117,7 @@ export const MenuBurguerScreen = ({navigation}) => {
         <Drawer.Screen name="Inicio" component={InicioScreen} options={{
           headerStyle:{
             backgroundColor:'black',
+
           },
           headerTintColor:'white',
           headerTitleAlign: 'center',
@@ -237,6 +228,7 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     paddingVertical: 20,
+    marginTop:20,
     paddingHorizontal: 10,
     borderBottomColor: 'white',
     borderBottomWidth: 1,

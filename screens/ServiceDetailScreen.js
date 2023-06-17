@@ -23,12 +23,6 @@ export const ServiceDetailScreen = ({route, navigation}) => {
 
       {/* Contenido */}
       <View style={styles.content}>
-        <Text style={styles.title}>Nombre del Plato</Text>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mattis lorem sed
-          maximus cursus. Etiam vehicula velit et leo maximus venenatis. Sed sed massa a
-          ipsum efficitur gravidaa.
-        </Text>
 
         {/* Separador */}
         <View style={styles.separator} />
