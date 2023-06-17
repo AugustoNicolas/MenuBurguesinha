@@ -17,7 +17,7 @@ export const AddServicioScreen = ({navigation}) => {
   }, []);
 
 
-  const {userInfo}=useContext(userContext)
+  const {userInfo , fetchServicios}=useContext(userContext)
 
   const [tematica, setTematica] = useState('');
   const [fechaInit, setFechaInit] = useState(new Date().toISOString().split('T')[0]);
@@ -86,6 +86,7 @@ export const AddServicioScreen = ({navigation}) => {
       postServicios(servicioData)
         .then((responseData) => {
           console.log('Servicio guardado exitosamente:', responseData);
+          fetchServicios()
           navigation.navigate('Inicio');
         })
         .catch((error) => {

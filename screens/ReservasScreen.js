@@ -16,11 +16,11 @@ export const ReservasScreen = ({route,navigation}) => {
 const [errormsg, seterrormsg] = useState(false);
 
 //=====================Id del servicio==================\\
-console.log(route.params)
+
 const { servicioId } = route.params;
 //=====================Usuario Logeado==================\\
 
-    const {userInfo} = useContext(userContext)
+    const {userInfo, searchReservas} = useContext(userContext)
     const {name,email,_id}= userInfo
 //======================================================\\
 
@@ -53,13 +53,13 @@ const { servicioId } = route.params;
         fecha:new Date('2023-06-16T08:55:28.914Z'),
         cupos:count
     }
-    console.log(reserva)
 
     const createReserva = async () =>{
         
         const response = await postReserva(reserva);
         if (response !== null) {
         alert('Reserva Realizada')
+        searchReservas()
         navigation.navigate('Inicio');
         } else {
         alert('no')

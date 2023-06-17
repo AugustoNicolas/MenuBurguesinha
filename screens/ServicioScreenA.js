@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { ItemServicios } from '../components/ItemServicios';
 import { getListaServicios } from '../helpers/Servicios';
+import { userContext } from '../context/userContext';
 
 export const ServiciosScreen = ({ navigation }) => {
-  const [servicios, setServicios] = useState([]);
+  const {servicios, fetchServicios}=useContext(userContext)
 
   useEffect(() => {
     fetchServicios();
   }, []);
 
-  const fetchServicios = async () => {
-    const listaServicios = await getListaServicios();
-    if (listaServicios) {
-      setServicios(listaServicios);
-    }
-  };
+  
 
   const ItemListaServicios = (itemData) => {
     const PressHandler = () => {
@@ -42,7 +38,7 @@ export const ServiciosScreen = ({ navigation }) => {
     
     const originalDate = itemData.item.fecha_init;
     const formattedDate = formatDate(originalDate);
-    console.log(formattedDate); // Resultado: "20/06/2023"
+    //console.log(formattedDate); // Resultado: "20/06/2023"
     
     return (
       <ItemServicios

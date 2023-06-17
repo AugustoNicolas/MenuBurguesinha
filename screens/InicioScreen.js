@@ -69,7 +69,6 @@ export const InicioScreen = () => {
       
       const viewReservas = async () => {
         const reservasHoy = await getReservaById();
-        console.log(reservasHoy)
         if (reservasHoy && reservasHoy.length > 1) {
           await schedulePushNotification();
         }      
@@ -196,7 +195,6 @@ async function registerForPushNotificationsAsync() {
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
   } else {
     alert('Must use physical device for Push Notifications');
   }
